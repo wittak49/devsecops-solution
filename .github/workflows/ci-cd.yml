@@ -35,7 +35,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner \
-            -Dsonar.projectKey=wittak49_devsecops-solutution \
+            -Dsonar.projectKey=wittak49_devsecops-solution \
             -Dsonar.organization=wittak49\
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
@@ -55,7 +55,7 @@ jobs:
               github, 
               core, 
               fetch,
-              projectKey: 'wittak49_devsecops-solutution',
+              projectKey: 'wittak49_devsecops-solution',
             });
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
