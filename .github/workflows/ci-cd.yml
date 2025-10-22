@@ -1,0 +1,62 @@
+name: DevSecOps CI/CD Pipeline to Azure
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  Build_and_Scan:
+    name: Scan & Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "app/package.json"
+
+      - name: Install Global Sonar Scanner
+        run: npm install -g sonarqube-scanner
+
+      - name: Install App Dependencies
+        run: npm install --prefix app
+
+      - name: SonarQube Scan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=ammarinp_devsecops-solutution \
+            -Dsonar.organization=ammarinp \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.sources=./app
+
+      - name: SonarQube Quality Gate Status is ready
+        run: echo "Waiting for 30 seconds for SonarQube to processing..." && sleep 30
+
+      - name: Check SonarQube Quality Gate Status
+        id: wait_and_check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { checkQualityGate } = require('./.github/workflows/sonar-check-script.js');
+            // ส่งค่า Secrets ไปให้ script ใช้โดยตรง
+            await checkQualityGate({
+              github, 
+              core, 
+              fetch,
+              projectKey: 'ammarinp_devsecops-solutution',
+            });
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
