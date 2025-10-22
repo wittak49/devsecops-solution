@@ -2,9 +2,9 @@ name: DevSecOps CI/CD Pipeline to Azure
 
 on:
   push:
-    branches: ["master"]
+    branches: ["main"]
   pull_request:
-    branches: ["master"]
+    branches: ["main"]
 
 jobs:
   Build_and_Scan:
@@ -35,8 +35,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner \
-            -Dsonar.projectKey=ammarinp_devsecops-solutution \
-            -Dsonar.organization=ammarinp \
+            -Dsonar.projectKey=wittak49_devsecops-solutution \
+            -Dsonar.organization=wittak49\
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.sources=./app
