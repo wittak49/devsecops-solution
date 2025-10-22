@@ -4,7 +4,7 @@
  */
  
 // WARNING: Project Key must match the value defined in ci-cd.yml's SonarQube Scan step.
-const PROJECT_KEY = 'kitthapat-j_devsecops-fullsolution';
+const PROJECT_KEY = 'wittak49_devsecops-solutution';
 const MAX_WAIT_TIME_SECONDS = 300; // 5 นาที (Maximum wait time)
 const POLLING_INTERVAL_SECONDS = 5; // (Polling interval)
  
