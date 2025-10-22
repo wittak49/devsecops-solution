@@ -55,7 +55,7 @@ jobs:
               github, 
               core, 
               fetch,
-              projectKey: 'ammarinp_devsecops-solutution',
+              projectKey: 'wittak49_devsecops-solutution',
             });
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
